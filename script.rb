@@ -4,7 +4,7 @@ class HashMap
   attr_accessor :buckets, :load_factor, :size
 
   def initialize(capacity = 16, load_factor = 0.75)
-    @buckets = Array.new(capacity) {  }
+    @buckets = Array.new(capacity)
     @load_factor = load_factor
     @size = 0
   end
@@ -34,11 +34,10 @@ class HashMap
         else
           curr_node.next_node = Node.new(key, value)
         end
-
     end
 
 
-  end # // set
+end # // set
 end # // hash_map
 
 data = HashMap.new
