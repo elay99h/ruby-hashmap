@@ -1,3 +1,5 @@
+#hash_map
+
 require './node'
 
 class HashMap
@@ -41,8 +43,3 @@ end # // set
 end # // hash_map
 
 data = HashMap.new
-data.set("Limey", "Developer")
-
-data.set("Miley", "Designer")
-
-p data.buckets
