@@ -1,4 +1,4 @@
-#hash_map
+# hash_map
 
 require './node'
 
@@ -22,67 +22,82 @@ class HashMap
     index = hash_function(key)
 
     if @buckets[index].nil?
-       @buckets[index] = Node.new(key, value)
+      @buckets[index] = Node.new(key, value)
     else
-        curr_node = @buckets[index]
+      curr_node = @buckets[index]
 
-        while curr_node.key != key && curr_node.next_node
-          curr_node = curr_node.next_node
-        end
+      while curr_node.key != key && curr_node.next_node
+        curr_node = curr_node.next_node
+      end
 
-        if curr_node.key == key
-          curr_node.value = value
-        else
-          curr_node.next_node = Node.new(key, value)
-        end
+      if curr_node.key == key
+        curr_node.value = value
+      else
+        curr_node.next_node = Node.new(key, value)
+      end
     end
-end
+  end
 
-def get(key)
-  index = hash_function(key)
+  def get(key)
+    index = hash_function(key)
 
-  if @buckets[index].nil?
+    if @buckets[index].nil?
       nil
-  else
+    else
       curr_node = @buckets[index]
 
       while curr_node.key != key
         curr_node = curr_node.next_node
       end
       curr_node.value
-  end
-end
-
-def has?(key)
-  index = hash_function(key)
-
-  curr_node = @buckets[index]
-
-  if curr_node.nil?
-    false
-  else
-
-    while curr_node
-       return true if curr_node.key == key
-       curr_node = curr_node.next_node
     end
-
-    false
   end
 
+  def has?(key)
+    index = hash_function(key)
 
+    curr_node = @buckets[index]
 
+    if curr_node.nil?
+      false
+    else
 
+      while curr_node
+        return true if curr_node.key == key
+
+        curr_node = curr_node.next_node
+      end
+
+      false
+    end
+  end
+
+def remove(key)
+
+  index = hash_function(key)
+  curr_node = @buckets[index]
+  prev_node = nil
+
+  return nil if !has?(key)
+
+  while curr_node && curr_node.key != key
+    prev_node = curr_node
+    curr_node = curr_node.next_node
+  end
+
+  if prev_node.nil?
+    @buckets[index] = curr_node.next_node
+  else
+    prev_node.next_node = curr_node.next_node
+  end
+
+   curr_node.value
 end
-
-
-
 
 end
 
 data = HashMap.new
-data.set("Elay", "Web developer")
-data.set("Adam", "Web developer")
 
-p data.has?("Lisa")
+p data.buckets
+
 
