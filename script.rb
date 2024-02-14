@@ -51,6 +51,27 @@ def get(key)
       end
       curr_node.value
   end
+end
+
+def has?(key)
+  index = hash_function(key)
+
+  curr_node = @buckets[index]
+
+  if curr_node.nil?
+    false
+  else
+
+    while curr_node
+       return true if curr_node.key == key
+       curr_node = curr_node.next_node
+    end
+
+    false
+  end
+
+
+
 
 end
 
@@ -60,5 +81,8 @@ end
 end
 
 data = HashMap.new
+data.set("Elay", "Web developer")
+data.set("Adam", "Web developer")
 
+p data.has?("Lisa")
 
