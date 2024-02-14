@@ -3,12 +3,12 @@
 require './node'
 
 class HashMap
-  attr_accessor :buckets, :load_factor, :size
+  attr_accessor :buckets, :load_factor, :length
 
   def initialize(capacity = 16, load_factor = 0.75)
     @buckets = Array.new(capacity)
     @load_factor = load_factor
-    @size = 0
+    @length = 0
   end
 
   def hash_function(key)
@@ -36,6 +36,9 @@ class HashMap
         curr_node.next_node = Node.new(key, value)
       end
     end
+
+    @length += 1
+
   end
 
   def get(key)
@@ -72,32 +75,42 @@ class HashMap
     end
   end
 
-def remove(key)
+  def remove(key)
+    index = hash_function(key)
+    curr_node = @buckets[index]
+    prev_node = nil
 
-  index = hash_function(key)
-  curr_node = @buckets[index]
-  prev_node = nil
+    return nil if !has?(key)
 
-  return nil if !has?(key)
+    while curr_node && curr_node.key != key
+      prev_node = curr_node
+      curr_node = curr_node.next_node
+    end
 
-  while curr_node && curr_node.key != key
-    prev_node = curr_node
-    curr_node = curr_node.next_node
+    if prev_node.nil?
+      @buckets[index] = curr_node.next_node
+    else
+      prev_node.next_node = curr_node.next_node
+    end
+
+    curr_node.value
+    @length -= 1
   end
 
-  if prev_node.nil?
-    @buckets[index] = curr_node.next_node
-  else
-    prev_node.next_node = curr_node.next_node
+  def length
+    @length
   end
 
-   curr_node.value
-end
+  def clear
+    @buckets = []
+  end
 
 end
 
 data = HashMap.new
-
-p data.buckets
-
-
+data.set("1", "One")
+data.set("2", "Two")
+data.set("3", "Three")
+data.set("4", "Four")
+data.set("5", "Five")
+p data.length
