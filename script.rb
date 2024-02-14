@@ -3,11 +3,12 @@
 require './node'
 
 class HashMap
-  attr_accessor :buckets, :load_factor, :length
+  attr_accessor :buckets, :load_factor, :length, :capacity
 
   def initialize(capacity = 16, load_factor = 0.75)
     @buckets = Array.new(capacity)
     @load_factor = load_factor
+    @capacity = capacity
     @length = 0
   end
 
@@ -102,7 +103,8 @@ class HashMap
   end
 
   def clear
-    @buckets = []
+    @buckets = Array.new(@capacity)
+    @length = 0
   end
 
 end
@@ -113,4 +115,7 @@ data.set("2", "Two")
 data.set("3", "Three")
 data.set("4", "Four")
 data.set("5", "Five")
+
+data.clear
 p data.length
+p data.buckets
