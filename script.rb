@@ -24,7 +24,6 @@ class HashMap
     if @buckets[index].nil?
        @buckets[index] = Node.new(key, value)
     else
-        #start iterarating from here
         curr_node = @buckets[index]
 
         while curr_node.key != key && curr_node.next_node
@@ -37,9 +36,29 @@ class HashMap
           curr_node.next_node = Node.new(key, value)
         end
     end
+end
+
+def get(key)
+  index = hash_function(key)
+
+  if @buckets[index].nil?
+      nil
+  else
+      curr_node = @buckets[index]
+
+      while curr_node.key != key
+        curr_node = curr_node.next_node
+      end
+      curr_node.value
+  end
+
+end
 
 
-end # // set
-end # // hash_map
+
+
+end
 
 data = HashMap.new
+
+
