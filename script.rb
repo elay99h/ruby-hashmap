@@ -40,11 +40,11 @@ class HashMap
     end
 
     @length += 1
-        # Check if load factor exceeds the threshold
+
     if load_factor_exceeded?
-      puts "Load factor exceeded. Growing buckets..."
       grow_buckets
     end
+
   end
 
   def get(key)
@@ -164,14 +164,13 @@ class HashMap
   end
 
   def grow_buckets
+  new_capacity = @capacity * 2
+  new_buckets = Array.new(new_capacity)
 
-    new_capacity = @capacity * 2
-    new_buckets = Array.new(new_capacity)
+  @buckets.each do |bucket|
+    curr_node = bucket
 
-    @buckets.each do |bucket|
-      curr_node = bucket
-
-      while curr_node
+    while curr_node
 
       new_index = hash_function(curr_node.key, new_capacity)
 
@@ -190,23 +189,13 @@ class HashMap
   end
 
   @buckets = new_buckets
-
-  end
+  @capacity = new_capacity
+end
 
   def load_factor_exceeded?
     (@length.to_f / @capacity) > @load_factor
   end
 
 end
-
-data = HashMap.new
-
-
-32.times do |key|
-  data.set("#{key + 1}", "Number")
-end
-
-p data.buckets.size
-
 
 
