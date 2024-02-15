@@ -39,7 +39,6 @@ class HashMap
     end
 
     @length += 1
-
   end
 
   def get(key)
@@ -107,15 +106,27 @@ class HashMap
     @length = 0
   end
 
+  def keys
+    all_keys = []
+
+    @buckets.each do |bucket|
+
+      curr_node = bucket
+
+      while curr_node
+       all_keys << curr_node.key
+       curr_node = curr_node.next_node
+      end
+    end
+
+    all_keys
+
+  end
 end
 
 data = HashMap.new
-data.set("1", "One")
-data.set("2", "Two")
-data.set("3", "Three")
-data.set("4", "Four")
-data.set("5", "Five")
+data.set("Miley", "One")
+data.set("Limey", "Hey")
 
-data.clear
-p data.length
-p data.buckets
+
+puts data.keys
