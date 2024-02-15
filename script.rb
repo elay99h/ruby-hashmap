@@ -110,58 +110,46 @@ class HashMap
     all_keys = []
 
     @buckets.each do |bucket|
-
       curr_node = bucket
 
       while curr_node
-       all_keys << curr_node.key
-       curr_node = curr_node.next_node
+        all_keys << curr_node.key
+        curr_node = curr_node.next_node
       end
     end
 
     all_keys
-
   end
 
   def values
     all_values = []
 
     @buckets.each do |bucket|
-
       curr_node = bucket
 
       while curr_node
-       all_values << curr_node.value
-       curr_node = curr_node.next_node
+        all_values << curr_node.value
+        curr_node = curr_node.next_node
       end
     end
 
     all_values
-
   end
 
   def entries
-
     entries = []
 
     @buckets.each do |bucket|
-
       curr_node = bucket
 
       while curr_node
         entries << [bucket.key, bucket.value]
         curr_node = curr_node.next_node
       end
-
-
-
     end
     entries
   end
-
 end
 
 data = HashMap.new
 
-
- p data.entries
