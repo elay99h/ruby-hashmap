@@ -12,11 +12,11 @@ class HashMap
     @length = 0
   end
 
-  def hash_function(key)
+  def hash_function(key, capacity = @capacity)
     hash_code = 0
     prim_num = 31
     key.each_char { |char| hash_code = hash_code * prim_num + char.ord }
-    hash_code % @buckets.size
+    hash_code % capacity
   end
 
   def set(key, value)
@@ -40,6 +40,11 @@ class HashMap
     end
 
     @length += 1
+        # Check if load factor exceeds the threshold
+    if load_factor_exceeded?
+      puts "Load factor exceeded. Growing buckets..."
+      grow_buckets
+    end
   end
 
   def get(key)
@@ -56,6 +61,9 @@ class HashMap
       end
       curr_node.value
     end
+
+
+
   end
 
   def has?(key)
@@ -154,8 +162,51 @@ class HashMap
     end
     entries
   end
+
+  def grow_buckets
+
+    new_capacity = @capacity * 2
+    new_buckets = Array.new(new_capacity)
+
+    @buckets.each do |bucket|
+      curr_node = bucket
+
+      while curr_node
+
+      new_index = hash_function(curr_node.key, new_capacity)
+
+      if new_buckets[new_index].nil?
+        new_buckets[new_index] = Node.new(curr_node.key, curr_node.value)
+      else
+        nb_curr_node = new_buckets[new_index]
+        while nb_curr_node.next_node
+          nb_curr_node = nb_curr_node.next_node
+        end
+        nb_curr_node.next_node = Node.new(curr_node.key, curr_node.value)
+      end
+
+      curr_node = curr_node.next_node
+    end
+  end
+
+  @buckets = new_buckets
+
+  end
+
+  def load_factor_exceeded?
+    (@length.to_f / @capacity) > @load_factor
+  end
+
 end
 
 data = HashMap.new
+
+
+32.times do |key|
+  data.set("#{key + 1}", "Number")
+end
+
+p data.buckets.size
+
 
 
