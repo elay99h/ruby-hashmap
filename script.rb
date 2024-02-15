@@ -122,6 +122,23 @@ class HashMap
     all_keys
 
   end
+
+  def values
+    all_values = []
+
+    @buckets.each do |bucket|
+
+      curr_node = bucket
+
+      while curr_node
+       all_values << curr_node.value
+       curr_node = curr_node.next_node
+      end
+    end
+
+    all_values
+
+  end
 end
 
 data = HashMap.new
@@ -129,4 +146,4 @@ data.set("Miley", "One")
 data.set("Limey", "Hey")
 
 
-puts data.keys
+puts data.values
